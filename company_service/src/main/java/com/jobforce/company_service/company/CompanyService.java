@@ -6,6 +6,6 @@ public interface CompanyService {
     List<Company> findAll();
     Company findById(Long id);
     boolean saveCompany(Company company);
-    boolean updateCompany(Company company);
+    boolean updateCompany(Long id, Company company);
     boolean deleteCompany(Long id);
 }

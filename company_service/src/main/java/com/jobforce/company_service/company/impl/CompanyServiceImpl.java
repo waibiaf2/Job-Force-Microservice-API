@@ -36,8 +36,8 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public boolean updateCompany(Company company) {
-        Optional<Company> companyOptional = companyRepository.findById(company.getId());
+    public boolean updateCompany(Long id, Company company) {
+        Optional<Company> companyOptional = companyRepository.findById(id);
         if(companyOptional.isPresent()) {
             Company companyToUpdate = companyOptional.get();
 
