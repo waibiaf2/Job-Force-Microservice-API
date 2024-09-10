@@ -3,7 +3,9 @@ package com.jobforce.company_service.company.impl;
 import com.jobforce.company_service.company.Company;
 import com.jobforce.company_service.company.CompanyRepository;
 import com.jobforce.company_service.company.CompanyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +13,7 @@ import java.util.Optional;
 @Service
 public class CompanyServiceImpl implements CompanyService {
     CompanyRepository companyRepository;
+
 
     public CompanyServiceImpl(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;

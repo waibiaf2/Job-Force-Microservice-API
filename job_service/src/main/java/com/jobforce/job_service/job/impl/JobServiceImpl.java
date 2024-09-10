@@ -3,27 +3,40 @@ package com.jobforce.job_service.job.impl;
 import com.jobforce.job_service.job.Job;
 import com.jobforce.job_service.job.JobRepository;
 import com.jobforce.job_service.job.JobService;
+import com.jobforce.job_service.job.dto.JobDto;
+import com.jobforce.job_service.job.external.Company;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class JobServiceImpl implements JobService {
     private final JobRepository jobRepository;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     public JobServiceImpl(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
     }
 
     @Override
-    public List<Job> findAll() {
-        return jobRepository.findAll();
+    public List<JobDto> findAll() {
+        List<Job> jobs =  jobRepository.findAll();
+
+        return jobs.stream()
+            .map(this::covertToDto)
+            .collect(Collectors.toList());
     }
 
     @Override
-    public Job findById(Long id) {
-        return jobRepository.findById(id).orElse(null);
+    public JobDto findById(Long id) {
+        Job job = jobRepository.findById(id).orElse(null);
+        return covertToDto(job);
     }
 
     @Override
@@ -31,7 +44,7 @@ public class JobServiceImpl implements JobService {
         if (job != null) {
             jobRepository.save(job);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -59,5 +72,25 @@ public class JobServiceImpl implements JobService {
     @Override
     public boolean deleteJob(Long id) {
         return false;
+    }
+
+    private JobDto covertToDto(Job job) {
+        JobDto jobDto = new JobDto();
+
+        jobDto.setId(job.getId());
+        jobDto.setTitle(job.getTitle());
+        jobDto.setDescription(job.getDescription());
+        jobDto.setMinSalary(job.getMinSalary());
+        jobDto.setMaxSalary(job.getMaxSalary());
+        jobDto.setLocation(job.getLocation());
+
+        Company company = restTemplate.getForObject(
+            "http://COMPANY-SERVICE/companies/" + job.getCompanyId(),
+            Company.class
+        );
+
+        jobDto.setCompany(company);
+
+        return jobDto;
     }
 }

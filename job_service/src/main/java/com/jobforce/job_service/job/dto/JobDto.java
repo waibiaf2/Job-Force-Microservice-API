@@ -1,39 +1,15 @@
-package com.jobforce.job_service.job;
+package com.jobforce.job_service.job.dto;
 
-import jakarta.persistence.*;
+import com.jobforce.job_service.job.external.Company;
 
-@Entity
-@Table(name = "jobs")
-public class Job {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class JobDto {
     private Long id;
     private String title;
     private String description;
     private String location;
     private String maxSalary;
     private String minSalary;
-    private Long companyId;
-
-    public Job() {
-    }
-
-    public Job(
-        Long id,
-        String title,
-        String description,
-        String location,
-        String maxSalary,
-        String minSalary, Long companyId
-    ) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.maxSalary = maxSalary;
-        this.minSalary = minSalary;
-        this.companyId = companyId;
-    }
+    private Company company;
 
     public Long getId() {
         return id;
@@ -83,11 +59,11 @@ public class Job {
         this.minSalary = minSalary;
     }
 
-    public Long getCompanyId() {
-        return companyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }
