@@ -1,6 +1,6 @@
 package com.jobforce.job_service.job;
 
-import com.jobforce.job_service.job.dto.JobDto;
+import com.jobforce.job_service.dto.JobDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +30,10 @@ public class JobsController {
     public ResponseEntity<JobDto> getJobById(@PathVariable Long id) {
         JobDto job = jobService.findById(id);
 
-        if (job != null) {
+        if (job != null)
             return new ResponseEntity<>(job, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping

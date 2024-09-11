@@ -3,8 +3,9 @@ package com.jobforce.job_service.job.impl;
 import com.jobforce.job_service.job.Job;
 import com.jobforce.job_service.job.JobRepository;
 import com.jobforce.job_service.job.JobService;
-import com.jobforce.job_service.job.dto.JobDto;
-import com.jobforce.job_service.job.external.Company;
+import com.jobforce.job_service.dto.JobDto;
+import com.jobforce.job_service.external.Company;
+import com.jobforce.job_service.job.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -36,6 +37,9 @@ public class JobServiceImpl implements JobService {
     @Override
     public JobDto findById(Long id) {
         Job job = jobRepository.findById(id).orElse(null);
+
+        if (job == null) return null;
+
         return covertToDto(job);
     }
 
@@ -62,6 +66,7 @@ public class JobServiceImpl implements JobService {
             jobToUpdate.setMaxSalary(job.getMaxSalary());
             jobToUpdate.setLocation(job.getLocation());
 
+
             jobRepository.save(jobToUpdate);
             return true;
         } else {
@@ -75,22 +80,12 @@ public class JobServiceImpl implements JobService {
     }
 
     private JobDto covertToDto(Job job) {
-        JobDto jobDto = new JobDto();
-
-        jobDto.setId(job.getId());
-        jobDto.setTitle(job.getTitle());
-        jobDto.setDescription(job.getDescription());
-        jobDto.setMinSalary(job.getMinSalary());
-        jobDto.setMaxSalary(job.getMaxSalary());
-        jobDto.setLocation(job.getLocation());
 
         Company company = restTemplate.getForObject(
             "http://COMPANY-SERVICE/companies/" + job.getCompanyId(),
             Company.class
         );
 
-        jobDto.setCompany(company);
-
-        return jobDto;
+        return JobMapper.mapToJobWithCompany(job, company);
     }
 }

@@ -1,6 +1,6 @@
-package com.jobforce.job_service.job.dto;
+package com.jobforce.job_service.dto;
 
-import com.jobforce.job_service.job.external.Company;
+import com.jobforce.job_service.external.Company;
 
 public class JobDto {
     private Long id;
@@ -58,6 +58,7 @@ public class JobDto {
     public void setMinSalary(String minSalary) {
         this.minSalary = minSalary;
     }
+
 
     public Company getCompany() {
         return company;
