@@ -1,13 +1,12 @@
 package com.jobforce.job_service.job.impl;
 
+import com.jobforce.job_service.dto.JobDto;
+import com.jobforce.job_service.external.Company;
 import com.jobforce.job_service.external.Review;
 import com.jobforce.job_service.job.Job;
 import com.jobforce.job_service.job.JobRepository;
 import com.jobforce.job_service.job.JobService;
-import com.jobforce.job_service.dto.JobDto;
-import com.jobforce.job_service.external.Company;
 import com.jobforce.job_service.job.mapper.JobMapper;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -81,6 +80,12 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public boolean deleteJob(Long id) {
+        boolean jobExists = jobRepository.existsById(id);
+
+        if (jobExists) {
+            jobRepository.deleteById(id);
+        }
+
         return false;
     }
 
