@@ -1,12 +1,17 @@
 package com.jobforce.job_service.job.impl;
 
+import com.jobforce.job_service.external.Review;
 import com.jobforce.job_service.job.Job;
 import com.jobforce.job_service.job.JobRepository;
 import com.jobforce.job_service.job.JobService;
 import com.jobforce.job_service.dto.JobDto;
 import com.jobforce.job_service.external.Company;
 import com.jobforce.job_service.job.mapper.JobMapper;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -86,6 +91,13 @@ public class JobServiceImpl implements JobService {
             Company.class
         );
 
-        return JobMapper.mapToJobWithCompany(job, company);
+        ResponseEntity<List<Review>> reviews = restTemplate.exchange(
+            "http://REVIEW-SERVICE/reviews?companyId=" + job.getCompanyId(),
+            HttpMethod.GET,
+            null,
+            new ParameterizedTypeReference<List<Review>>() {}
+        );
+
+        return JobMapper.mapToJobWithCompany(job, company, reviews);
     }
 }

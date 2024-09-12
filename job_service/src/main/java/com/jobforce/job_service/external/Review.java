@@ -1,38 +1,12 @@
-package com.jobforce.reviewservice.review;
+package com.jobforce.job_service.external;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
 public class Review {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String body;
     private Integer rating;
     private String author;
     private Long companyId;
-
-    public Review() {
-    }
-
-    public Review(
-        Long id,
-        String title,
-        String body,
-        Integer rating,
-        String author
-    ) {
-        this.id = id;
-        this.title = title;
-        this.body = body;
-        this.rating = rating;
-        this.author = author;
-    }
-
 
     public Long getId() {
         return id;

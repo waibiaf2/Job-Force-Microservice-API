@@ -1,6 +1,9 @@
 package com.jobforce.job_service.dto;
 
 import com.jobforce.job_service.external.Company;
+import com.jobforce.job_service.external.Review;
+
+import java.util.List;
 
 public class JobDto {
     private Long id;
@@ -10,6 +13,7 @@ public class JobDto {
     private String maxSalary;
     private String minSalary;
     private Company company;
+    private List<Review> reviews;
 
     public Long getId() {
         return id;
@@ -66,5 +70,13 @@ public class JobDto {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
