@@ -16,8 +16,8 @@ public class ReviewsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Review>> getAllReviews() {
-        List<Review> reviews = reviewService.findAll();
+    public ResponseEntity<List<Review>> getAllReviews(@RequestParam Long companyId) {
+        List<Review> reviews = reviewService.findAll(companyId);
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 

@@ -17,8 +17,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> findAll() {
-        return reviewRepository.findAll();
+    public List<Review> findAll(Long id) {
+        return reviewRepository.findByCompanyId(id);
     }
 
     @Override
